@@ -29,7 +29,7 @@ use yii\helpers\Html;
         <tfoot>
         <tr>
             <th colspan="3">Tổng cộng</th>
-            <th><?= $count ?></th>
+            <th><?= count($bookings) ?></th>
         </tr>
         </tfoot>
     </table>
