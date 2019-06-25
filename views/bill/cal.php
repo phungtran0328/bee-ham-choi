@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $bookings \app\models\Booking[] */
 ?>
-<div class="container">
+<div class="table-responsive">
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -21,10 +21,16 @@ use yii\helpers\Html;
             <tr>
                 <td><?= $bk->user_name ?></td>
                 <td><?= $count ?></td>
-                <td><?= Html::encode($bk->food_name) ?></td>
-                <td><?= Html::encode($bk->remark) ?> </td>
+                <td class="break-line"><?= Html::encode($bk->food_name) ?></td>
+                <td class="break-line"><?= Html::encode($bk->remark) ?> </td>
             </tr>
 			<?php $count ++; ?><?php endforeach; ?>
         </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="3">Tổng cộng</th>
+            <th><?= $count ?></th>
+        </tr>
+        </tfoot>
     </table>
 </div>
