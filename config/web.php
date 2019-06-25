@@ -54,9 +54,9 @@ $config = [
 				'<module:[a-z0-9\-]+>/<controller:[a-z0-9\-]+>/<action:[a-z0-9\-]+>'          => '<module>/<controller>/<action>',
 			],
 		],
-		'authManager'  => [
-			'class' => 'app\base\AuthManager',
-		],
+		//		'authManager'  => [
+		//			'class' => 'app\base\AuthManager',
+		//		],
 	],
 	'params'     => $params,
 	'name'       => 'Bee ham chơi',
