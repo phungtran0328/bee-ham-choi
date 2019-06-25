@@ -42,6 +42,9 @@ class Booking extends \yii\db\ActiveRecord{
 	public function rules(){
 		return [
 			[['bill_id', 'user_name', 'food_name',], 'required'],
+			[['user_name'], 'in', 'range' =>
+				                      ['Alvin', 'Andy', 'Argus', 'Aura', 'Christina',
+					                      'Corner', 'Kendy', 'Nancy', 'Noo', 'Roy', 'Zoe',]],
 			[['bill_id', 'created_at', 'updated_at'], 'integer'],
 			[['user_name'], 'string', 'max' => 50],
 			[['food_name'], 'string', 'max' => 100],
