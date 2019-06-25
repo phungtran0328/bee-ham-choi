@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Class m190620_120452_create_table_booking
+ * Class m190000_120400_create_table_booking
  */
 class m190000_120400_create_table_booking extends Migration{
 
