@@ -47,8 +47,8 @@ class Booking extends \yii\db\ActiveRecord{
 					                      'Corner', 'Kendy', 'Nancy', 'Noo', 'Roy', 'Zoe',]],
 			[['bill_id', 'created_at', 'updated_at'], 'integer'],
 			[['user_name'], 'string', 'max' => 50],
-			[['food_name'], 'string', 'max' => 100],
-			[['remark'], 'string', 'max' => 2000],
+			[['food_name'], 'string', 'max' => 50],
+			[['remark'], 'string', 'max' => 100],
 			[['bill_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Bill::class, 'targetAttribute' => ['bill_id' => 'id']],
 		];
 	}

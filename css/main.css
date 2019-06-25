@@ -4,4 +4,7 @@
     line-height: 1.2;
 }
 
-/*# sourceMappingURL=main.css.map */
+.break-line {
+    word-break: break-all ;
+    width: 35%;
+}
