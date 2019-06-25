@@ -5,6 +5,14 @@
 }
 
 .break-line {
-    word-break: break-all ;
+    word-break: break-all;
     width: 35%;
+}
+.date-index {
+    text-align: center;
+    font-size: 5rem;
+}
+.time-index {
+    text-align: center;
+    font-size: 7rem;
 }

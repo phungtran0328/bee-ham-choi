@@ -1,6 +1,9 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
+$params = array_merge(
+	require __DIR__ . '/params.php',
+	require __DIR__ . '/permission.php'
+);
 $db     = require __DIR__ . '/db.php';
 
 $config = [
@@ -14,10 +17,10 @@ $config = [
 		'@tests' => '@app/tests',
 	],
 	'components'          => [
-		'cache'       => [
+		'cache' => [
 			'class' => 'yii\caching\FileCache',
 		],
-		'log'         => [
+		'log'   => [
 			'targets' => [
 				[
 					'class'  => 'yii\log\FileTarget',
@@ -25,7 +28,7 @@ $config = [
 				],
 			],
 		],
-		'db'          => $db,
+		'db'    => $db,
 	],
 
 	'params' => $params,

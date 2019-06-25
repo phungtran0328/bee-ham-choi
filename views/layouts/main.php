@@ -69,7 +69,7 @@ AppAsset::register($this);
 </div>
 <footer class="footer">
     <div class="container">
-        <p class="text-center">&copy; bee ham chơi <?= date('Y') ?></p>
+        <p class="text-center">&copy; bee ham chơi</p>
     </div>
 </footer>
 
