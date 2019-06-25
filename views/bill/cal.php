@@ -1,5 +1,7 @@
 <?php
 
+use yii\bootstrap4\Html;
+
 /* @var $this \yii\web\View */
 /* @var $bookings \app\models\Booking[] */
 ?>
@@ -19,8 +21,8 @@
             <tr>
                 <td><?= $bk->user_name ?></td>
                 <td><?= $count ?></td>
-                <td><?= $bk->food_name ?></td>
-                <td><?= $bk->remark ?> </td>
+                <td><?= Html::encode($bk->food_name) ?></td>
+                <td><?= Html::encode($bk->remark) ?> </td>
             </tr>
 			<?php $count ++; ?><?php endforeach; ?>
         </tbody>
