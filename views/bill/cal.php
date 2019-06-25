@@ -1,11 +1,8 @@
 <?php
 
-use yii\bootstrap4\Html;
-
-/* @var $this \yii\web\View */
-
 use yii\helpers\Html;
 
+/* @var $this \yii\web\View */
 /* @var $bookings \app\models\Booking[] */
 ?>
 <div class="container">
