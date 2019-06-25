@@ -17,13 +17,9 @@ class m190600_000000_create_table_role extends Migration{
 		}
 
 		$this->createTable('{{%role}}', [
-			'id'         => $this->primaryKey(),
-			'name'       => $this->string()->notNull(),
-			'status'     => $this->integer()->notNull()->defaultValue('10'),
-			'created_by' => $this->integer()->notNull(),
-			'created_at' => $this->integer()->notNull(),
-			'updated_by' => $this->integer(),
-			'updated_at' => $this->integer(),
+			'id'     => $this->primaryKey(),
+			'name'   => $this->string()->notNull()->unique(),
+			'status' => $this->integer()->notNull()->defaultValue('10'),
 		], $tableOptions);
 	}
 
@@ -31,6 +27,6 @@ class m190600_000000_create_table_role extends Migration{
 	 * @return bool|void
 	 */
 	public function down(){
-		$this->dropTable('{{%user_group}}');
+		$this->dropTable('{{%role}}');
 	}
 }

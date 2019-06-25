@@ -16,14 +16,11 @@ class m190600_000100_create_table_permission extends Migration{
 			$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
 		}
 
-		$this->createTable('{{%user_permission}}', [
+		$this->createTable('{{%permission}}', [
 			'id'          => $this->primaryKey(),
-			'name'        => $this->string()->notNull(),
+			'name'        => $this->string()->notNull()->unique(),
 			'description' => $this->string(),
-			'created_by'  => $this->integer(),
-			'updated_by'  => $this->integer(),
-			'created_at'  => $this->integer(),
-			'updated_at'  => $this->integer(),
+			'synced'      => $this->tinyInteger()->notNull()->defaultValue('0'),
 		], $tableOptions);
 
 	}
@@ -32,6 +29,6 @@ class m190600_000100_create_table_permission extends Migration{
 	 * @return bool|void
 	 */
 	public function down(){
-		$this->dropTable('{{%user_permission}}');
+		$this->dropTable('{{%permission}}');
 	}
 }
