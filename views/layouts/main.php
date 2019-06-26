@@ -40,20 +40,33 @@ AppAsset::register($this);
 					['label' => 'About', 'url' => ['/site/about']],
 					['label' => 'Contact', 'url' => ['/site/contact']],
 					Yii::$app->user->isGuest ?
-						Html::tag('li', Html::a('Login', ['site/login'],
-							['class' => 'nav-link']), ['class' => 'nav-item'])
-						: Html::tag('li', Html::a(
-						'Logout (' . Yii::$app->user->identity->username . ')',
-						['site/logout'],
-						['class'       => 'nav-link',
-						 'data-method' => 'post',]),
-						['class' => 'nav-item']),
-					Yii::$app->user->isGuest ?
 						'' : Html::tag('li', Html::a(
 						'Bills',
 						['bill/index'],
 						['class' => 'nav-link']),
-						['class' => 'nav-item'])
+						['class' => 'nav-item']),
+					Yii::$app->user->isGuest ?
+						Html::tag('li', Html::a('Login', ['site/login'],
+							['class' => 'nav-link']), ['class' => 'nav-item'])
+						:
+						[
+							'label'           => Yii::$app->user->identity->username,
+							'encode'          => FALSE,
+							'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
+							'items'           => [
+								[
+									'label'  => '<i class="fa fa-user"></i> My Profile',
+									'url'    => Url::toRoute(['/profile']),
+									'encode' => FALSE,
+								],
+								[
+									'label'       => '<i class="fa fa-sign-out-alt"></i> Logout',
+									'url'         => ['/site/logout'],
+									'encode'      => FALSE,
+									'linkOptions' => ['data-method' => 'post'],
+								],
+							],
+						],
 				]]); ?>
         </div>
     </nav>

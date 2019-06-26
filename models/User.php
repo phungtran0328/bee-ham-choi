@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -33,6 +32,7 @@ class User extends ActiveRecord implements IdentityInterface{
 
 	const STATUS_ACTIVE = 10;
 
+	public $password;
 
 	/**
 	 * {@inheritdoc}
@@ -47,7 +47,6 @@ class User extends ActiveRecord implements IdentityInterface{
 	public function behaviors(){
 		return [
 			TimestampBehavior::class,
-			BlameableBehavior::class,
 		];
 	}
 
@@ -60,7 +59,7 @@ class User extends ActiveRecord implements IdentityInterface{
 			[['status', 'created_at', 'updated_at'], 'integer'],
 			[['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
 			[['auth_key'], 'string', 'max' => 32],
-			[['name', 'avatar'], 'string', 'max' => 1000],
+			[['name', 'avatar'], 'string', 'max' => 100],
 			[['phone_number'], 'string', 'max' => 20],
 			[['username'], 'unique'],
 			[['email'], 'unique'],
