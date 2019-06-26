@@ -10,32 +10,32 @@ use Yii;
  * @property int $role_id
  * @property int $user_id
  *
- * @property Role $role
+ * @property Role[] $role
  * @property User $user
  */
 class UserRole extends \yii\db\ActiveRecord{
 
 	/**
-	 * {@inheritdoc}
+	 * @return string
 	 */
 	public static function tableName(){
 		return '{{%user_role}}';
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array
 	 */
 	public function rules(){
 		return [
 			[['role_id', 'user_id'], 'required'],
 			[['role_id', 'user_id'], 'integer'],
-			[['role_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Role::className(), 'targetAttribute' => ['role_id' => 'id']],
-			[['user_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+			[['role_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
+			[['user_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
 		];
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array
 	 */
 	public function attributeLabels(){
 		return [
@@ -48,13 +48,13 @@ class UserRole extends \yii\db\ActiveRecord{
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getRole(){
-		return $this->hasOne(Role::className(), ['id' => 'role_id']);
+		return $this->hasMany(Role::class, ['id' => 'role_id']);
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getUser(){
-		return $this->hasOne(User::className(), ['id' => 'user_id']);
+		return $this->hasOne(User::class, ['id' => 'user_id']);
 	}
 }

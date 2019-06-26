@@ -5,6 +5,7 @@ namespace app\commands;
 
 
 use app\models\Role;
+use app\models\UserRole;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -60,11 +61,14 @@ class RoleController extends Controller{
 	 * @param $name
 	 *
 	 * @return int
+	 * @throws \Throwable
+	 * @throws \yii\db\StaleObjectException
 	 */
 	public function actionDelete($name){
 		$role = Role::findOne(['name' => $name, 'status' => 10]);
 		if ($role !== NULL){
-			if ($role->softDelete()){
+			UserRole::deleteAll(['role_id' => $role->id]);
+			if ($role->delete()){
 				echo "Successful";
 
 				return ExitCode::OK;
