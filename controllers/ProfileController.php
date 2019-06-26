@@ -1,17 +1,20 @@
 <?php
 
-
 namespace app\controllers;
-
 
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Request;
 
+/**
+ * Class ProfileController
+ *
+ * @package app\controllers
+ */
 class ProfileController extends Controller{
 
 	/**
@@ -21,29 +24,26 @@ class ProfileController extends Controller{
 		return [
 			'access' => [
 				'class' => AccessControl::class,
-				'only'  => ['profile'],
 				'rules' => [
-					[
-						'actions' => ['profile'],
-						'allow'   => TRUE,
-						'roles'   => ['@'],
-					],
-				],
-			],
-			'verbs'  => [
-				'class'   => VerbFilter::class,
-				'actions' => [
-					'profile' => ['post'],
-				],
+					['allow' => TRUE,
+					 'roles' => ['@'],
+					]
+				]
 			],
 		];
 	}
 
+	/**
+	 * @return string|\yii\web\Response
+	 * @throws \yii\web\NotFoundHttpException
+	 */
 	public function actionIndex(){
-		$id                          = Yii::$app->user->identity->getId();
-		$model                       = $this->findModel($id);
-		Yii::$app->session['update'] = Yii::$app->request->post();
-		if (!empty(Yii::$app->session['update'])){
+		$id    = Yii::$app->user->identity->getId();
+		$model = $this->findModel($id);
+		$post  = Yii::$app->request->post();
+		if (!empty($post)){
+			Yii::$app->session['update'] = $post;
+
 			return $this->redirect(['profile/confirm']);
 		}
 
@@ -52,7 +52,18 @@ class ProfileController extends Controller{
 		]);
 	}
 
+	/**
+	 * @return string|\yii\web\Response
+	 */
 	public function actionConfirm(){
+		$request = new Request(['url' => parse_url(Yii::$app->request->referrer, PHP_URL_PATH)]);
+		$url     = Yii::$app->urlManager->parseRequest($request);
+
+		if (!in_array($url[0], ['profile/index', 'profile/confirm'])){
+			Yii::$app->session->remove('update');
+
+			return $this->redirect(Url::home());
+		}
 		if (empty(Yii::$app->session['update'])){
 			return $this->redirect(Url::home());
 		}
@@ -64,28 +75,23 @@ class ProfileController extends Controller{
 					Yii::$app->session->remove('update');
 					Yii::$app->session->setFlash('success', 'Profile successfully updated.');
 
-					return $this->redirect(['profile/update', 'id' => $model->id]);
+					return $this->redirect(['profile/index']);
 				}
 			}
 
 			Yii::$app->session->setFlash('error', 'Password is incorrect');
 		}
 
-
 		return $this->render('confirm', [
 			'model' => $model,
 		]);
-		throw new NotFoundHttpException("Username không hợp lệ nha bạn !");
 	}
 
 	/**
-	 * Finds the Booking model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param $id
 	 *
-	 * @param integer $id
-	 *
-	 * @return User the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
+	 * @return \app\models\User|null
+	 * @throws \yii\web\NotFoundHttpException
 	 */
 	protected function findModel($id){
 		if (($model = User::findOne($id)) !== NULL){
