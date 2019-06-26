@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -24,6 +23,8 @@ use yii\web\IdentityInterface;
  * @property string $name
  * @property string $avatar
  * @property string $phone_number
+ *
+ * @property \app\models\UserRole $role
  */
 class User extends ActiveRecord implements IdentityInterface{
 
@@ -35,24 +36,23 @@ class User extends ActiveRecord implements IdentityInterface{
 
 
 	/**
-	 * {@inheritdoc}
+	 * @return string
 	 */
 	public static function tableName(){
 		return '{{%user}}';
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array
 	 */
 	public function behaviors(){
 		return [
 			TimestampBehavior::class,
-			BlameableBehavior::class,
 		];
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return array
 	 */
 	public function rules(){
 		return [
@@ -209,5 +209,14 @@ class User extends ActiveRecord implements IdentityInterface{
 	 */
 	public function removePasswordResetToken(){
 		$this->password_reset_token = NULL;
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 * @throws \yii\base\InvalidConfigException
+	 */
+	public function getRole(){
+		return $this->hasOne(Role::class, ['id' => 'role_id'])
+		            ->viaTable(UserRole::tableName(), ['user_id' => 'id']);
 	}
 }

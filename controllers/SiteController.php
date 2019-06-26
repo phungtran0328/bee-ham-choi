@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ContactForm;
 use app\models\LoginForm;
+use app\models\SignupForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -125,5 +126,24 @@ class SiteController extends Controller{
 	 */
 	public function actionAbout(){
 		return $this->render('about');
+	}
+
+	/**
+	 * @return string|\yii\web\Response
+	 * @throws \yii\base\Exception
+	 */
+	public function actionSignup(){
+		$model = new SignupForm();
+		if ($model->load(Yii::$app->request->post())){
+			if ($user = $model->signup()){
+				if (Yii::$app->user->login($user)){
+					return $this->goHome();
+				}
+			}
+		}
+
+		return $this->render('signup', [
+			'model' => $model,
+		]);
 	}
 }
