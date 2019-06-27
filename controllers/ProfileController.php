@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\helper\MailHelper;
+use app\models\ChangePassForm;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -83,6 +85,28 @@ class ProfileController extends Controller{
 		}
 
 		return $this->render('confirm', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * @return string|\yii\web\Response
+	 * @throws \yii\base\Exception
+	 */
+	public function actionChangePassword(){
+		$user  = Yii::$app->user;
+		$mail  = $user->identity->email;
+		$model = new ChangePassForm();
+		if ($model->load(Yii::$app->getRequest()->post()) && $model->change()){
+			Yii::$app->session->setFlash('success', 'Change password is success');
+			$send_mail = new MailHelper();
+			$send_mail->sendMail('changePassword-html', 'changePassword-text', $user->identity,
+				$mail, 'Change password for beehamchoi.com');
+
+			return $this->redirect(['profile/index']);
+		}
+
+		return $this->render('change-password', [
 			'model' => $model,
 		]);
 	}

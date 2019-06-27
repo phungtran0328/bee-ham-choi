@@ -38,7 +38,7 @@ $config = [
 			],
 		],
 		'db'           => $db,
-		'urlManager'   => [
+		'urlManager' => [
 			'class'           => 'yii\web\UrlManager',
 			'showScriptName'  => FALSE,
 			'enablePrettyUrl' => TRUE,
@@ -52,6 +52,17 @@ $config = [
 				'<module:[a-z0-9\-]+>/<controller:[a-z0-9\-]+>'                               => '<module>/<controller>/index',
 				'<module:[a-z0-9\-]+>/<controller:[a-z0-9\-]+>/<action:[a-z0-9\-]+>/<id:\d+>' => '<module>/<controller>/<action>',
 				'<module:[a-z0-9\-]+>/<controller:[a-z0-9\-]+>/<action:[a-z0-9\-]+>'          => '<module>/<controller>/<action>',
+			],
+		],
+		'mailer'     => [
+			'class'     => 'yii\swiftmailer\Mailer',
+			'transport' => [
+				'class'      => 'Swift_SmtpTransport',
+				'host'       => 'smtp.gmail.com',
+				'username'   => 'tpphung0328@gmail.com',
+				'password'   => 'Roronoazoro#2',
+				'port'       => '587',
+				'encryption' => 'tls',
 			],
 		],
 	],

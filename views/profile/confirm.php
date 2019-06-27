@@ -3,7 +3,7 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
-/* @var $model app\models\User */
+/** @var app\models\User $model */
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -26,5 +26,5 @@ use yii\helpers\Html;
 
 <?= Html::submitButton('Confirm',
 	['class' => 'btn btn-primary', 'name' => 'confirm-btn']) ?>
-
+<?= Html::a('Cancel', ['profile/index'], ['class' => 'btn btn-default']) ?>
 <?php ActiveForm::end(); ?>
