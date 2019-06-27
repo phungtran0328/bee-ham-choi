@@ -9,6 +9,7 @@ use app\widgets\Alert;
 use yii\bootstrap4\Nav;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
@@ -29,69 +30,81 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="container">
-			<?= Html::a(Yii::$app->name, Url::home(), [
-				'class' => 'navbar-brand logo-beehamchoi'
-			]) ?>
+<div class="container">
+	<?php
+	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
+	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
+	if (!Yii::$app->user->isGuest){
+		$item['bill'] = ['label' => 'Bills', 'url' => ['/bill/index']];
+	}
+	$item['islogin'] = ['label' => 'Login', 'url' => ['/site/login']];
+	if (!Yii::$app->user->isGuest){
+		$item['bill']    = ['label' => 'Bills', 'url' => ['/bill/index']];
+		$item['islogin'] = ['label'           => Yii::$app->user->identity->username,
+		                    'encode'          => FALSE,
+		                    'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
+		                    'items'           => [
+			                    ['label'  => '<i class="fa fa-user"></i> My Profile',
+			                     'url'    => Url::toRoute(['/profile']),
+			                     'encode' => FALSE],
+			                    ['label'  => '<i class="fa fa-user-secret"></i> Change password',
+			                     'url'    => Url::toRoute(['/profile/change-password']),
+			                     'encode' => FALSE],
+			                    ['label'       => '<i class="fa fa-sign-out-alt"></i> Logout',
+			                     'url'         => ['/site/logout'],
+			                     'encode'      => FALSE,
+			                     'linkOptions' => ['data-method' => 'post']],
+		                    ]];
+	}
+	?>
+    <nav class="navbar navbar-expand-md navbar-light pr-0 pl-0">
+		<?= Html::a(Yii::$app->name, Url::home(), [
+			'class' => 'navbar-brand logo-beehamchoi'
+		]) ?>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<?= Nav::widget([
-				'items' => [
-					['label' => 'About', 'url' => ['/site/about']],
-					['label' => 'Contact', 'url' => ['/site/contact']],
-					Yii::$app->user->isGuest ?
-						'' : Html::tag('li', Html::a(
-						'Bills',
-						['bill/index'],
-						['class' => 'nav-link']),
-						['class' => 'nav-item']),
-					Yii::$app->user->isGuest ?
-						Html::tag('li', Html::a('Login', ['site/login'],
-							['class' => 'nav-link']), ['class' => 'nav-item'])
-						:
-						[
-							'label'           => Yii::$app->user->identity->username,
-							'encode'          => FALSE,
-							'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
-							'items'           => [
-								[
-									'label'  => '<i class="fa fa-user"></i> My Profile',
-									'url'    => Url::toRoute(['/profile']),
-									'encode' => FALSE,
-								],
-								[
-									'label'  => '<i class="fa fa-user-secret"></i> Change password',
-									'url'    => Url::toRoute(['/profile/change-password']),
-									'encode' => FALSE,
-								],
-								[
-									'label'       => '<i class="fa fa-sign-out-alt"></i> Logout',
-									'url'         => ['/site/logout'],
-									'encode'      => FALSE,
-									'linkOptions' => ['data-method' => 'post'],
-								],
-							],
-						],
-				]]); ?>
+				'options' => ['class' => 'navbar-nav ml-auto'],
+				'items'   => $item,
+			]); ?>
         </div>
     </nav>
-    <div class="container pt-3">
-		<?= Breadcrumbs::widget([
-			'links'              => !empty($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-			'itemTemplate'       => "<li class='breadcrumb-item'>{link}</li>\n",
-			'activeItemTemplate' => "<li class='breadcrumb-item active'>{link}</li>\n",
-		]) ?>
-		<?= Alert::widget() ?>
-		<?= $content ?>
+	<?= Breadcrumbs::widget([
+		'links'              => !empty($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+		'itemTemplate'       => "<li class='breadcrumb-item'>{link}</li>\n",
+		'activeItemTemplate' => "<li class='breadcrumb-item active'>{link}</li>\n",
+	]) ?>
+
+	<?= Alert::widget() ?>
+
+	<?= $content ?>
+
+</div>
+<button id="footerBtn" type="button" class="footer-btn-tool btn btn-light">
+    <i class="fas fa-chevron-right m-auto rotate-reset"></i></button>
+<div id="footerContent" class="footer-content" role="alert">
+    <div class="d-flex h-100">
+        <span class="m-auto">&copy; bee ham chơi</span>
     </div>
 </div>
-<footer class="footer">
-    <div class="container">
-        <p class="text-center">&copy; bee ham chơi</p>
-    </div>
-</footer>
-
 <?php $this->endBody() ?>
+<?php
+$js = <<<JS
+$('#footerBtn').click(function() {
+    $('#footerContent').animate({
+      width: "toggle",
+      opacity: "toggle"
+    },{
+        duration: 400,
+    });
+    $('.fa-chevron-right').toggleClass('rotate');
+    $('.fa-chevron-right').toggleClass('rotate-reset');
+});
+JS;
+$this->registerJs($js, View::POS_READY)
+?>
 </body>
 </html>
 <?php $this->endPage() ?>
