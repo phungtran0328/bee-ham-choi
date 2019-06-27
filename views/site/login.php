@@ -20,10 +20,15 @@ $this->title = 'Login';
 				         ->textInput(['autofocus' => TRUE]) ?>
 
 				<?= $form->field($model, 'password')->passwordInput() ?>
-
-				<?= $form->field($model, 'rememberMe', ['enableClientValidation' => FALSE])
-				         ->checkbox() ?>
-
+                <div class="row">
+                    <div class="col-sm-6">
+			            <?= $form->field($model, 'rememberMe', ['enableClientValidation' => FALSE])
+			                     ->checkbox() ?>
+                    </div>
+                    <div class="col-sm-6">
+			            <?= Html::a('Forgot Password', ['site/reset-password-request']) ?>
+                    </div>
+                </div>
 				<?= Html::submitButton('Login',
 					['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 

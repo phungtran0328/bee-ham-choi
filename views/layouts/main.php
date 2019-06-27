@@ -60,6 +60,11 @@ AppAsset::register($this);
 									'encode' => FALSE,
 								],
 								[
+									'label'  => '<i class="fa fa-user-secret"></i> Change password',
+									'url'    => Url::toRoute(['/profile/change-password']),
+									'encode' => FALSE,
+								],
+								[
 									'label'       => '<i class="fa fa-sign-out-alt"></i> Logout',
 									'url'         => ['/site/logout'],
 									'encode'      => FALSE,
