@@ -38,7 +38,7 @@ $config = [
 			],
 		],
 		'db'           => $db,
-		'urlManager'   => [
+		'urlManager'  => [
 			'class'           => 'yii\web\UrlManager',
 			'showScriptName'  => FALSE,
 			'enablePrettyUrl' => TRUE,
@@ -54,6 +54,9 @@ $config = [
 				'<module:[a-z0-9\-]+>/<controller:[a-z0-9\-]+>/<action:[a-z0-9\-]+>'          => '<module>/<controller>/<action>',
 			],
 		],
+		'authManager' => [
+			'class' => 'app\helper\AuthManager'
+		]
 	],
 	'params'     => $params,
 	'name'       => 'Bee ham chơi',

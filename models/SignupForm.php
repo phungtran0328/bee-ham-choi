@@ -70,7 +70,13 @@ class SignupForm extends Model{
 		$user->phone_number = $this->phone_number;
 		$user->setPassword($this->password);
 		$user->generateAuthKey();
+		if ($user->save()){
+			$role_id = Role::getIdByName('user');
+			UserRole::roleAssignment($user->id, $role_id);
 
-		return $user->save() ? $user : NULL;
+			return $user;
+		}
+
+		return FALSE;
 	}
 }

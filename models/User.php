@@ -220,4 +220,15 @@ class User extends ActiveRecord implements IdentityInterface{
 		return $this->hasOne(Role::class, ['id' => 'role_id'])
 		            ->viaTable(UserRole::tableName(), ['user_id' => 'id']);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAdmin(){
+		if ($this->role->name == 'admin'){
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 }

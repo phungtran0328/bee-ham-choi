@@ -32,7 +32,7 @@ class BillController extends Controller{
 				'rules' => [
 					[
 						'allow' => TRUE,
-						'roles' => ['@'],
+						'roles' => ['admin'],
 					],
 				],
 			],

@@ -57,4 +57,18 @@ class UserRole extends \yii\db\ActiveRecord{
 	public function getUser(){
 		return $this->hasOne(User::class, ['id' => 'user_id']);
 	}
+
+	/**
+	 * @param $user_id
+	 * @param $role_id
+	 *
+	 * @return \app\models\UserRole|null
+	 */
+	public static function roleAssignment($user_id, $role_id){
+		$model          = new UserRole();
+		$model->role_id = $role_id;
+		$model->user_id = $user_id;
+
+		return $model->save() ? $model : NULL;
+	}
 }
