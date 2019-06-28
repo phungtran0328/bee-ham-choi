@@ -5,6 +5,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
+use app\helper\SocialMediaTags;
 use app\widgets\Alert;
 use yii\bootstrap4\Nav;
 use yii\helpers\Html;
@@ -21,11 +22,26 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php $this->registerCsrfMetaTags() ?>
+	<?php
+	$this->registerCsrfMetaTags();
+	SocialMediaTags::generateFacebook([
+		'og:site_name'    => Yii::$app->name,
+		'og:title'        => $this->title,
+		'og:description'  => $this->params['description'] ?? 'Welcome bee ham chơi !',
+		'og:image'        => Yii::$app->urlManager->createAbsoluteUrl([$this->params['link_img'] ?? '/images/beehamchoi.png']),
+		'og:url'          => Yii::$app->urlManager->createAbsoluteUrl([Yii::$app->request->url]),
+		'og:type'         => "website",
+		'og:image:width'  => "450",
+		'og:image:height' => "450",
+	]);
+	SocialMediaTags::generateTwitter([
+		'twitter:card' => 'summary_large_image'
+	]);
+	?>
     <title><?= Html::encode($this->title) ?></title>
 	<?php $this->head() ?>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="icon" href="<?= Url::to(['/images/favicon.ico']) ?>?>" type="image/gif" sizes="16x16">
+    <link rel="icon" href="<?= Url::to(['/images/favicon.ico']) ?>" type="image/gif" sizes="16x16">
 </head>
 <body>
 <?php $this->beginBody() ?>
