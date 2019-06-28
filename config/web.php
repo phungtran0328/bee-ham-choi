@@ -67,7 +67,12 @@ $config = [
 		],
 		'authManager'  => [
 			'class' => 'app\helper\AuthManager'
-		]
+		],
+		'reCaptcha'    => [
+			'class'     => 'himiklab\yii2\recaptcha\ReCaptchaConfig',
+			'siteKeyV2' => '6LelFasUAAAAAFm06NaMIHTrkPKp69DQIHaBHyAP',
+			'secretV2'  => '6LelFasUAAAAAFT8CBUr403ZOeQsZHyn4mbPBYME',
+		],
 	],
 	'params'     => $params,
 	'name'       => 'Bee ham chơi',

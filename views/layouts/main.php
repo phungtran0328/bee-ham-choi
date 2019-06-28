@@ -28,9 +28,12 @@ AppAsset::register($this);
     <link rel="icon" href="<?= Url::to(['/images/favicon.ico']) ?>?>" type="image/gif" sizes="16x16">
 </head>
 <body>
+
 <?php $this->beginBody() ?>
 
 <div class="container">
+    <noscript><h1 class="text-danger">Mở JavaScript lên đi. Tiền bối đừng phá tiểu đệ nữa.</h1>
+    </noscript>
 	<?php
 	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
 	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
@@ -95,7 +98,6 @@ $js = <<<JS
 $('#footerBtn').click(function() {
     $('#footerContent').animate({
       width: "toggle",
-      opacity: "toggle"
     },{
         duration: 400,
     });

@@ -5,8 +5,8 @@
 
 /* @var $model app\models\ContactForm */
 
+use himiklab\yii2\recaptcha\ReCaptcha2;
 use yii\bootstrap4\ActiveForm;
-use yii\captcha\Captcha;
 use yii\helpers\Html;
 
 $this->title                   = 'Contact';
@@ -23,27 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
             Thank you for contacting us. We will respond to you as soon as possible.
         </div>
 
-        <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
-			<?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved asa file under
-                <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                                                                                       Please configure the
-                <code>useFileTransport</code> property of the
-                <code>mail</code>application component to be false to enable email sending.
-			<?php endif; ?>
-        </p>
-
 	<?php else: ?>
 
         <div class="row">
             <div class="col-lg-8">
 
-		        <?php $form = ActiveForm::begin([
-			        'id'     => 'contact-form',
-			        'layout' => ActiveForm::LAYOUT_HORIZONTAL,
-		        ]); ?>
+	            <?php $form = ActiveForm::begin([
+		            'id'     => 'contact-form',
+		            'layout' => ActiveForm::LAYOUT_HORIZONTAL,
+	            ]); ?>
 
 				<?= $form->field($model, 'name')->textInput(['autofocus' => TRUE]) ?>
 
@@ -53,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
-				<?= $form->field($model, 'verifyCode')->widget(Captcha::class, [
-					'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-				])->label('Verification') ?>
+	            <?= $form->field($model, 'verifyCode', [
+		            'enableAjaxValidation' => FALSE,
+	            ])->widget(ReCaptcha2::class) ?>
 
                 <div class="form-group">
 					<?= Html::submitButton('Submit',

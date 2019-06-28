@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use himiklab\yii2\recaptcha\ReCaptchaValidator2;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -19,6 +20,8 @@ use yii\behaviors\TimestampBehavior;
  * @property Bill $bill
  */
 class Booking extends \yii\db\ActiveRecord{
+
+	public $verify_code;
 
 	/**
 	 * {@inheritdoc}
@@ -50,6 +53,7 @@ class Booking extends \yii\db\ActiveRecord{
 			[['food_name'], 'string', 'max' => 50],
 			[['remark'], 'string', 'max' => 100],
 			[['bill_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Bill::class, 'targetAttribute' => ['bill_id' => 'id']],
+			['verify_code', ReCaptchaValidator2::class, 'uncheckedMessage' => 'Please confirm that you are not a bot.']
 		];
 	}
 

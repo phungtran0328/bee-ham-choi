@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use himiklab\yii2\recaptcha\ReCaptchaValidator2;
 use yii\base\Model;
 
 /**
@@ -22,12 +22,10 @@ class ContactForm extends Model{
 	 */
 	public function rules(){
 		return [
-			// name, email, subject and body are required
-			[['name', 'email', 'subject', 'body'], 'required'],
-			// email has to be a valid email address
+			[['name', 'email', 'subject', 'body',], 'required'],
 			['email', 'email'],
-			// verifyCode needs to be entered correctly
-			['verifyCode', 'captcha'],
+			['verifyCode', 'required', 'message' => 'Please confirm that you are not a bot.'],
+			['verifyCode', ReCaptchaValidator2::class,],
 		];
 	}
 
@@ -36,27 +34,23 @@ class ContactForm extends Model{
 	 */
 	public function attributeLabels(){
 		return [
-			'verifyCode' => 'Verification Code',
+			'verifyCode' => 'Verification',
 		];
 	}
 
 	/**
-	 * Sends an email to the specified email address using the information collected by this model.
-	 *
-	 * @param string $email the target email address
-	 *
-	 * @return bool whether the model passes validation
+	 * @return bool
 	 */
-	public function contact($email){
-		if ($this->validate()){
-			Yii::$app->mailer->compose()
-			                 ->setTo($email)
-			                 ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-			                 ->setReplyTo([$this->email => $this->name])
-			                 ->setSubject($this->subject)
-			                 ->setTextBody($this->body)
-			                 ->send();
-
+	public function contactMe(){
+		if (!$this->validate()){
+			return FALSE;
+		}
+		$contact_model              = new Contact();
+		$contact_model->guest_name  = $this->name;
+		$contact_model->guest_email = $this->email;
+		$contact_model->subject     = $this->subject;
+		$contact_model->content     = $this->body;
+		if ($contact_model->save()){
 			return TRUE;
 		}
 
