@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title                   = Yii::t('app', 'Đặt Món');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bookings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['link_img']      = '/images/food.jpg';
 ?>
     <div class="booking-create">
 

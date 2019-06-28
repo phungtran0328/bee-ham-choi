@@ -28,7 +28,7 @@ AppAsset::register($this);
 		'og:site_name'    => Yii::$app->name,
 		'og:title'        => $this->title,
 		'og:description'  => $this->params['description'] ?? 'Welcome bee ham chơi !',
-		'og:image'        => Yii::$app->urlManager->createAbsoluteUrl([$this->params['link_img'] ?? '/images/beehamchoi.png']),
+		'og:image'        => Yii::$app->urlManager->createAbsoluteUrl([$this->params['link_img'] ?? '/images/beehamchoi.jpg']),
 		'og:url'          => Yii::$app->urlManager->createAbsoluteUrl([Yii::$app->request->url]),
 		'og:type'         => "website",
 		'og:image:width'  => "450",
