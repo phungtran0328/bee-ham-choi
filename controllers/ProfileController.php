@@ -11,6 +11,8 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 /**
  * Class ProfileController
@@ -123,5 +125,16 @@ class ProfileController extends Controller{
 		}
 
 		throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+	}
+
+	public function actionValidate(){
+		$model = new ChangePassForm();
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return ActiveForm::validate($model);
+		}
+
+		return [];
 	}
 }

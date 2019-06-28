@@ -19,6 +19,7 @@ class ChangePassForm extends Model{
 			[['old_password', 'new_password', 'confirm_password'], 'required'],
 			[['old_password', 'new_password', 'confirm_password'], 'trim'],
 			[['old_password'], 'validatePassword'],
+			[['new_password'], 'validateNewPassword'],
 			[['new_password'], 'string', 'min' => 6],
 			[['confirm_password'], 'compare', 'compareAttribute' => 'new_password'],
 		];
@@ -44,6 +45,14 @@ class ChangePassForm extends Model{
 		$user = Yii::$app->user->identity;
 		if (!$user || !$user->validatePassword($this->old_password)){
 			$this->addError('old_password', 'Incorrect old password.');
+		}
+	}
+
+	public function validateNewPassword(){
+		/** @var \app\models\User $user */
+		$user = Yii::$app->user->identity;
+		if (!$user || $user->validatePassword($this->new_password)){
+			$this->addError('new_password', 'New password matches the current password !');
 		}
 	}
 
