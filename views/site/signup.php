@@ -5,16 +5,23 @@
 
 /* @var $model app\models\LoginForm */
 
+use himiklab\yii2\recaptcha\ReCaptcha2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Login';
+$this->title = 'Signup';
 ?>
 <div class="site-login row justify-content-center align-items-center">
     <div class="col-lg-4 col">
         <div class="card">
             <div class="card-body">
-				<?php $form = ActiveForm::begin(['id' => 'signup-form']); ?>
+	            <?php $form = ActiveForm::begin([
+		            'id'                     => 'signup-form',
+		            'validationUrl'          => ['site/validate'],
+		            'enableAjaxValidation'   => TRUE,
+		            'enableClientValidation' => FALSE,
+		            'validateOnSubmit'       => FALSE,
+	            ]); ?>
 
 				<?= $form->field($model, 'username')
 				         ->textInput(['autofocus' => TRUE]) ?>
@@ -28,7 +35,8 @@ $this->title = 'Login';
 				<?= $form->field($model, 'password')->passwordInput() ?>
 
 				<?= $form->field($model, 'password_confirm')->passwordInput() ?>
-
+	            <?= $form->field($model, 'verify_code', ['enableAjaxValidation' => FALSE])
+	                     ->widget(ReCaptcha2::class) ?>
 				<?= Html::submitButton('Signup',
 					['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 

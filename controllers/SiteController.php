@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 /**
  * Class SiteController
@@ -202,5 +203,16 @@ class SiteController extends Controller{
 		return $this->render('reset-password', [
 			'model' => $model,
 		]);
+	}
+
+	public function actionValidate(){
+		$model = new SignupForm();
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return ActiveForm::validate($model);
+		}
+
+		return [];
 	}
 }
