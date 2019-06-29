@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use himiklab\yii2\recaptcha\ReCaptchaValidator2;
 use Yii;
 use yii\base\Model;
 
@@ -19,6 +20,7 @@ class SignupForm extends Model{
 	public $password;
 	public $password_confirm;
 	public $role_id;
+	public $verify_code;
 
 	/**
 	 * @return array
@@ -36,6 +38,8 @@ class SignupForm extends Model{
 			['password_confirm', 'compare', 'compareAttribute' => 'password'],
 			['username', 'unique', 'targetClass' => User::class],
 			['email', 'unique', 'targetClass' => User::class],
+			['verify_code', 'required', 'message' => 'Please confirm that you are not a bot.'],
+			['verify_code', ReCaptchaValidator2::class,],
 		];
 	}
 
@@ -51,6 +55,7 @@ class SignupForm extends Model{
 			'password'         => Yii::t('app', 'Password'),
 			'password_confirm' => Yii::t('app', 'Confirm Password'),
 			'role_id'          => Yii::t('app', 'Role'),
+			'verify_code'      => Yii::t('app', 'Verification')
 		];
 	}
 

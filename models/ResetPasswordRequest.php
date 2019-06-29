@@ -57,7 +57,7 @@ class ResetPasswordRequest extends Model{
 			if ($user->save()){
 				$mail = new MailHelper();
 
-				return $mail->sendMail('passwordResetToken-html', 'passwordResetToken-text', $user,
+				return $mail->sendMail('passwordResetToken-html', $user,
 					$this->email, 'Password reset for ' . Yii::$app->name);
 			}
 		}

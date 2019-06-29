@@ -22,16 +22,16 @@ $this->title = 'Login';
 				<?= $form->field($model, 'password')->passwordInput() ?>
                 <div class="row">
                     <div class="col-sm-6">
-			            <?= $form->field($model, 'rememberMe', ['enableClientValidation' => FALSE])
-			                     ->checkbox() ?>
+	                    <?= $form->field($model, 'rememberMe', ['enableClientValidation' => FALSE])
+	                             ->checkbox() ?>
                     </div>
                     <div class="col-sm-6">
-			            <?= Html::a('Forgot Password', ['site/reset-password-request']) ?>
+	                    <?= Html::a('Forgot Password', ['site/reset-password-request']) ?>
                     </div>
                 </div>
 				<?= Html::submitButton('Login',
 					['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-
+	            <?= Html::a('Signup', ['site/signup'], ['class' => 'btn btn-success']) ?>
 				<?php ActiveForm::end(); ?>
             </div>
         </div>
