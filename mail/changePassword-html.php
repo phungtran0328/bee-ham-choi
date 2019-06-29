@@ -8,6 +8,6 @@ use yii\helpers\Html;
 <div class="change-password">
     <p>Hello <?= Html::encode($user->username) ?>,</p>
 
-    <p>You have changed password.</p>
+    <p style="color: red">You have changed password.</p>
 
 </div>

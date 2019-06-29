@@ -102,7 +102,7 @@ class ProfileController extends Controller{
 		if ($model->load(Yii::$app->getRequest()->post()) && $model->change()){
 			Yii::$app->session->setFlash('success', 'Change password is success');
 			$send_mail = new MailHelper();
-			$send_mail->sendMail('changePassword-html', 'changePassword-text', $user->identity,
+			$send_mail->sendMail('changePassword-html', $user->identity,
 				$mail, 'Change password for beehamchoi.com');
 
 			return $this->redirect(['profile/index']);
