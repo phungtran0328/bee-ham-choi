@@ -51,6 +51,16 @@ AppAsset::register($this);
     <noscript><h1 class="text-danger">Mở JavaScript lên đi. Tiền bối đừng phá tiểu đệ nữa.</h1>
     </noscript>
 	<?php
+	if (Yii::$app->user->can('admin')){
+		$item['management'] = ['label'           => 'Management',
+		                       'encode'          => FALSE,
+		                       'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
+		                       'items'           => [
+			                       ['label'  => 'Contact',
+			                        'url'    => Url::toRoute(['contact-management/index']),
+			                        'encode' => FALSE],
+		                       ]];
+	}
 	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
 	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
 	if (!Yii::$app->user->isGuest){

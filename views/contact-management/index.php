@@ -2,21 +2,19 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = Yii::t('app', 'Contacts');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title                   = Yii::t('app', 'Contact Management');
+$this->params['breadcrumbs'][] = ['label' => 'Contact',
+                                  'url'   => Url::toRoute(['contact-management/index']),];
+$this->params['breadcrumbs'][] = 'Management';
 ?>
 <div class="contact-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-		<?= Html::a(Yii::t('app', 'Create Contact'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
 
 	<?= GridView::widget([
 		'dataProvider' => $dataProvider,

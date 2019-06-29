@@ -5,26 +5,34 @@ namespace app\controllers;
 use app\models\Contact;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * ContactController implements the CRUD actions for Contact model.
+ * ContactManagementController implements the CRUD actions for Contact model.
  */
-class ContactController extends Controller{
+class ContactManagementController extends Controller{
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function behaviors(){
 		return [
-			'verbs' => [
+			'verbs'  => [
 				'class'   => VerbFilter::class,
 				'actions' => [
 					'delete' => ['POST'],
 				],
 			],
+			'access' => [
+				'class' => AccessControl::class,
+				'rules' => [
+					['allow' => TRUE,
+					 'roles' => ['admin']]
+				]
+			]
 		];
 	}
 
@@ -54,24 +62,6 @@ class ContactController extends Controller{
 	public function actionView($id){
 		return $this->render('view', [
 			'model' => $this->findModel($id),
-		]);
-	}
-
-	/**
-	 * Creates a new Contact model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 *
-	 * @return mixed
-	 */
-	public function actionCreate(){
-		$model = new Contact();
-
-		if ($model->load(Yii::$app->request->post()) && $model->save()){
-			return $this->redirect(['view', 'id' => $model->id]);
-		}
-
-		return $this->render('create', [
-			'model' => $model,
 		]);
 	}
 

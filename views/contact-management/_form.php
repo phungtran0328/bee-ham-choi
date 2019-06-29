@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'content')->textInput(['maxlength' => TRUE]) ?>
 
+	<?= $form->field($model, 'status')->textInput() ?>
+
 	<?= $form->field($model, 'updated_at')->textInput() ?>
 
 	<?= $form->field($model, 'created_at')->textInput() ?>
