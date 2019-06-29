@@ -33,17 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
 		            'layout' => ActiveForm::LAYOUT_HORIZONTAL,
 	            ]); ?>
 
-				<?= $form->field($model, 'name')->textInput(['autofocus' => TRUE]) ?>
+	            <?= $form->field($model, 'guest_name')->textInput(['autofocus' => TRUE]) ?>
 
-				<?= $form->field($model, 'email') ?>
+	            <?= $form->field($model, 'guest_email') ?>
 
 				<?= $form->field($model, 'subject') ?>
 
-				<?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+	            <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
-	            <?= $form->field($model, 'verifyCode', [
-		            'enableAjaxValidation' => FALSE,
-	            ])->widget(ReCaptcha2::class) ?>
+	            <?= $form->field($model, 'verifyCode')->widget(ReCaptcha2::class) ?>
 
                 <div class="form-group">
 					<?= Html::submitButton('Submit',

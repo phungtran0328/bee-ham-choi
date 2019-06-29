@@ -10,10 +10,10 @@ use yii\base\Model;
  */
 class ContactForm extends Model{
 
-	public $name;
-	public $email;
+	public $guest_name;
+	public $guest_email;
 	public $subject;
-	public $body;
+	public $content;
 	public $verifyCode;
 
 
@@ -22,10 +22,10 @@ class ContactForm extends Model{
 	 */
 	public function rules(){
 		return [
-			[['name', 'email', 'subject', 'body',], 'required'],
-			['email', 'email'],
-			['verifyCode', 'required', 'message' => 'Please confirm that you are not a bot.'],
-			['verifyCode', ReCaptchaValidator2::class,],
+			[['guest_name', 'guest_email', 'subject', 'content',], 'required'],
+			['guest_email', 'email'],
+			['verifyCode', ReCaptchaValidator2::class,
+				'uncheckedMessage' => 'Please confirm that you are not a bot.'],
 		];
 	}
 
@@ -34,7 +34,11 @@ class ContactForm extends Model{
 	 */
 	public function attributeLabels(){
 		return [
-			'verifyCode' => 'Verification',
+			'guest_name'  => 'Name',
+			'guest_email' => 'Email',
+			'subject'     => 'Subject',
+			'content'     => 'Content',
+			'verifyCode'  => 'Verification',
 		];
 	}
 
@@ -46,10 +50,10 @@ class ContactForm extends Model{
 			return FALSE;
 		}
 		$contact_model              = new Contact();
-		$contact_model->guest_name  = $this->name;
-		$contact_model->guest_email = $this->email;
+		$contact_model->guest_name  = $this->guest_name;
+		$contact_model->guest_email = $this->guest_email;
 		$contact_model->subject     = $this->subject;
-		$contact_model->content     = $this->body;
+		$contact_model->content     = $this->content;
 		if ($contact_model->save()){
 			return TRUE;
 		}
