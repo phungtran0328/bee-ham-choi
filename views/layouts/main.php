@@ -59,16 +59,18 @@ AppAsset::register($this);
 			                       ['label'  => 'Contact',
 			                        'url'    => Url::toRoute(['contact-management/index']),
 			                        'encode' => FALSE],
+			                       ['label'  => 'Store',
+			                        'url'    => Url::toRoute(['store/index']),
+			                        'encode' => FALSE],
 		                       ]];
 	}
 	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
 	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
-	if (!Yii::$app->user->isGuest){
+	if (Yii::$app->user->can('admin')){
 		$item['bill'] = ['label' => 'Bills', 'url' => ['/bill/index']];
 	}
 	$item['islogin'] = ['label' => 'Login', 'url' => ['/site/login']];
 	if (!Yii::$app->user->isGuest){
-		$item['bill']    = ['label' => 'Bills', 'url' => ['/bill/index']];
 		$item['islogin'] = ['label'           => Yii::$app->user->identity->username,
 		                    'encode'          => FALSE,
 		                    'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],

@@ -8,7 +8,9 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * BillController implements the CRUD actions for Bill model.
@@ -45,8 +47,12 @@ class BillController extends Controller{
 	 * @return mixed
 	 */
 	public function actionIndex(){
+
 		$dataProvider = new ActiveDataProvider([
-			'query' => Bill::find()->orderBy(['created_at' => SORT_DESC]),
+			'query' => Bill::find(),
+			'sort'  => [
+				'attributes' => ['is_finished']
+			]
 		]);
 
 		return $this->render('index', [
@@ -151,5 +157,23 @@ class BillController extends Controller{
 		$bookings = $bill->bookings;
 
 		return $this->render('cal', ['bookings' => $bookings]);
+	}
+
+	/**
+	 * @return string
+	 * @throws \yii\web\HttpException
+	 */
+	public function actionFinished(){
+		$post  = Yii::$app->request->post('id');
+		$model = Bill::findOne($post);
+		if (Yii::$app->request->isAjax && $model->doFinished()){
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return [
+				'$model'  => $model,
+				'success' => 200,
+			];
+		}
+		throw new HttpException('404', 'Page not found.');
 	}
 }

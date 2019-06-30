@@ -62,4 +62,9 @@ body {
     background: linear-gradient(to bottom, white 0%, #f7f7f7 100%);
 }
 
+.copy-link:hover {
+    color: #0a73bb !important;
+    cursor: pointer;
+}
+
 /*# sourceMappingURL=main.css.map */

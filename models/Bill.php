@@ -98,4 +98,16 @@ class Bill extends \yii\db\ActiveRecord{
 			'is_finished' => self::NOT_FINISHED,
 		]);
 	}
+
+	/**
+	 * @return $this|null
+	 */
+	public function doFinished(){
+		$this->is_finished = 10;
+		if ($this->save()){
+			return $this;
+		}
+
+		return NULL;
+	}
 }
