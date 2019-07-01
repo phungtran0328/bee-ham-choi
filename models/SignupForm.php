@@ -34,12 +34,12 @@ class SignupForm extends Model{
 			[['password'], 'string', 'min' => 6, 'max' => 30],
 			['email', 'string', 'max' => 100],
 			['email', 'email'],
-			['username', 'match', 'pattern' => "/^[a-zA-Z0-9 ']*$/", 'message' => 'Thôi mà, có Regex rồi đừng troll'],
+			['username', 'match', 'pattern' => "/^[a-zA-Z0-9 ']*$/", 'message' => 'Username should contain [a-zA-Z0-9]'],
 			['password_confirm', 'compare', 'compareAttribute' => 'password'],
 			['username', 'unique', 'targetClass' => User::class],
 			['email', 'unique', 'targetClass' => User::class],
-			['verify_code', 'required', 'message' => 'Please confirm that you are not a bot.'],
-			['verify_code', ReCaptchaValidator2::class,],
+			['verify_code', ReCaptchaValidator2::class,
+				'uncheckedMessage' => 'Please confirm that you are not a bot.'],
 		];
 	}
 

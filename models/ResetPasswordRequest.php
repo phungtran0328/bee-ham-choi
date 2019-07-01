@@ -8,6 +8,11 @@ use app\helper\MailHelper;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Class ResetPasswordRequest
+ *
+ * @package app\models
+ */
 class ResetPasswordRequest extends Model{
 
 	public $email;
@@ -16,14 +21,12 @@ class ResetPasswordRequest extends Model{
 	 * @inheritdoc
 	 */
 	public function rules(){
-		$class = Yii::$app->getUser()->identityClass ?: 'app\models\User';
-
 		return [
 			['email', 'filter', 'filter' => 'trim'],
 			['email', 'required'],
 			['email', 'email'],
 			['email', 'exist',
-				'targetClass' => $class,
+				'targetClass' => User::class,
 				'filter'      => ['status' => User::STATUS_ACTIVE],
 				'message'     => 'There is no user with such email.'
 			],
@@ -41,23 +44,18 @@ class ResetPasswordRequest extends Model{
 
 	/**
 	 * @return bool
-	 * @throws \yii\base\Exception
 	 */
 	public function sendEmail(){
-		/** @var User */
-		$class = Yii::$app->getUser()->identityClass ?: 'app\models\User';
-		$user  = $class::findOne([
+
+		$user = User::findOne([
 			'status' => User::STATUS_ACTIVE,
 			'email'  => $this->email,
 		]);
-		if ($user){
-			if (!ResetPasswordForm::isPasswordResetTokenValid($user->password_reset_token)){
-				$user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-			}
-			if ($user->save()){
-				$mail = new MailHelper();
 
-				return $mail->sendMail('passwordResetToken-html', $user,
+		if ($user){
+			if ($user->generatePasswordResetToken() && $user->save()){
+				return MailHelper::sendEmail('passwordResetToken-html', $user,
+					[Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'],
 					$this->email, 'Password reset for ' . Yii::$app->name);
 			}
 		}

@@ -30,9 +30,9 @@ class m190629_160732_create_tbl_booking_order extends Migration{
 
 		$this->addForeignKey('fk_order', '{{%booking_order}}',
 			'order_id',
-			'{{%bill}}', 'id', 'NO ACTION', 'NO ACTION');
+			'{{%order}}', 'id', 'NO ACTION', 'NO ACTION');
 		$this->addForeignKey('fk_bk_user_id', '{{%booking_order}}',
-			'order_id',
+			'user_id',
 			'{{%user}}', 'id', 'NO ACTION', 'NO ACTION');
 	}
 

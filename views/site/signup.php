@@ -12,15 +12,19 @@ use yii\helpers\Html;
 $this->title = 'Signup';
 ?>
 <div class="site-login row justify-content-center align-items-center">
-    <div class="col-lg-4 col">
+    <div class="col-lg-8 col">
         <div class="card">
             <div class="card-body">
 	            <?php $form = ActiveForm::begin([
-		            'id'                     => 'signup-form',
-		            'validationUrl'          => ['site/validate'],
-		            'enableAjaxValidation'   => TRUE,
-		            'enableClientValidation' => FALSE,
-		            'validateOnSubmit'       => FALSE,
+		            'id'                   => 'signup-form',
+		            'enableAjaxValidation' => TRUE,
+		            'layout'               => ActiveForm::LAYOUT_HORIZONTAL,
+		            'fieldConfig'          => [
+			            'horizontalCssClasses' => [
+				            'label'   => 'col-sm-3',
+				            'wrapper' => 'col-sm-9'
+			            ],
+		            ],
 	            ]); ?>
 
 				<?= $form->field($model, 'username')
@@ -35,8 +39,10 @@ $this->title = 'Signup';
 				<?= $form->field($model, 'password')->passwordInput() ?>
 
 				<?= $form->field($model, 'password_confirm')->passwordInput() ?>
+
 	            <?= $form->field($model, 'verify_code', ['enableAjaxValidation' => FALSE])
 	                     ->widget(ReCaptcha2::class) ?>
+
 				<?= Html::submitButton('Signup',
 					['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 

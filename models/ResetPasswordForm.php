@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,35 +13,28 @@ class ResetPasswordForm extends Model{
 
 	public $password;
 	public $confirm_password;
-	/**
-	 * @var User
-	 */
 	private $_user;
 
 
 	/**
-	 * ResetPassword constructor.
+	 * ResetPasswordForm constructor.
 	 *
 	 * @param $token
 	 * @param array $config
 	 *
 	 * @throws \yii\web\NotFoundHttpException
 	 */
-	public function __construct($token, $config = []){
+	public function __construct($token = NULL, $config = []){
 		if (empty($token) || !is_string($token)){
 			throw new NotFoundHttpException('Password reset token cannot be blank.');
 		}
-		// check token
-		$class = Yii::$app->getUser()->identityClass ?: 'app\models\User';
-		if (static::isPasswordResetTokenValid($token)){
-			$this->_user = $class::findOne([
-				'password_reset_token' => $token,
-				'status'               => User::STATUS_ACTIVE
-			]);
-		}
+
+		$this->_user = User::findByPasswordResetToken($token);
+
 		if (!$this->_user){
 			throw new NotFoundHttpException('Wrong password reset token.');
 		}
+
 		parent::__construct($config);
 	}
 
@@ -73,29 +65,13 @@ class ResetPasswordForm extends Model{
 	 * @throws \yii\base\Exception
 	 */
 	public function resetPassword(){
-		$user = $this->_user;
-		$user->setPassword($this->password);
-		$user->removePasswordResetToken();
-
-		return $user->save(FALSE);
-	}
-
-	/**
-	 * Finds out if password reset token is valid
-	 *
-	 * @param string $token password reset token
-	 *
-	 * @return boolean
-	 */
-	public static function isPasswordResetTokenValid($token){
-		if (empty($token)){
+		if (!$this->validate()){
 			return FALSE;
 		}
-		$expire    = ArrayHelper::getValue(Yii::$app->params, 'user.passwordResetTokenExpire',
-			24 * 3600);
-		$parts     = explode('_', $token);
-		$timestamp = (int) end($parts);
 
-		return $timestamp + $expire >= time();
+		$this->_user->setPassword($this->password);
+		$this->_user->removePasswordResetToken();
+
+		return $this->_user->save();
 	}
 }

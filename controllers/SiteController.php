@@ -53,15 +53,13 @@ class SiteController extends Controller{
 	 */
 	public function actions(){
 		return [
-			'error'   => [
+			'error' => [
 				'class' => 'yii\web\ErrorAction',
 			],
 		];
 	}
 
 	/**
-	 * Displays homepage.
-	 *
 	 * @return string
 	 */
 	public function actionIndex(){
@@ -70,9 +68,7 @@ class SiteController extends Controller{
 	}
 
 	/**
-	 * Login action.
-	 *
-	 * @return Response|string
+	 * @return string|\yii\web\Response
 	 */
 	public function actionLogin(){
 		if (!Yii::$app->user->isGuest){
@@ -84,17 +80,13 @@ class SiteController extends Controller{
 			return $this->goBack();
 		}
 
-		$model->password = '';
-
 		return $this->render('login', [
 			'model' => $model,
 		]);
 	}
 
 	/**
-	 * Logout action.
-	 *
-	 * @return Response
+	 * @return \yii\web\Response
 	 */
 	public function actionLogout(){
 		Yii::$app->user->logout();
@@ -103,9 +95,7 @@ class SiteController extends Controller{
 	}
 
 	/**
-	 * Displays contact page.
-	 *
-	 * @return Response|string
+	 * @return string|\yii\web\Response
 	 */
 	public function actionContact(){
 		$model_form = new ContactForm();
@@ -123,8 +113,6 @@ class SiteController extends Controller{
 	}
 
 	/**
-	 * Displays about page.
-	 *
 	 * @return string
 	 */
 	public function actionAbout(){
@@ -136,6 +124,10 @@ class SiteController extends Controller{
 	 * @throws \yii\base\Exception
 	 */
 	public function actionSignup(){
+		if (!Yii::$app->user->isGuest){
+			return $this->goHome();
+		}
+
 		$model = new SignupForm();
 		if ($model->load(Yii::$app->request->post())){
 			if ($user = $model->signup()){
@@ -143,6 +135,11 @@ class SiteController extends Controller{
 					return $this->goHome();
 				}
 			}
+		}
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return ActiveForm::validate($model);
 		}
 
 		return $this->render('signup', [
@@ -155,18 +152,21 @@ class SiteController extends Controller{
 	 * @throws \yii\base\Exception
 	 */
 	public function actionResetPasswordRequest(){
-		$model = new ResetPasswordRequest();
-		if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
-			if ($model->sendEmail()){
-				Yii::$app->getSession()
-				         ->setFlash('success', 'Check your email for further instructions.');
+		if (!Yii::$app->user->isGuest){
+			return $this->goHome();
+		}
 
-				return $this->goHome();
-			}else{
-				Yii::$app->getSession()
-				         ->setFlash('error',
-					         'Sorry, we are unable to reset password for email provided.');
+		$model = new ResetPasswordRequest();
+		if ($model->load(Yii::$app->request->post()) && $model->validate()){
+			if ($model->sendEmail()){
+				Yii::$app->session
+					->setFlash('success', 'Check your email for further instructions.');
+
+				return $this->refresh();
 			}
+			Yii::$app->session
+				->setFlash('error',
+					'Sorry, we are unable to reset password for email provided.');
 		}
 
 		return $this->render('request-token', [
@@ -184,31 +184,25 @@ class SiteController extends Controller{
 	 * @throws \yii\web\NotFoundHttpException
 	 */
 	public function actionResetPassword($token){
+		if (!Yii::$app->user->isGuest){
+			return $this->goHome();
+		}
+
 		try{
 			$model = new ResetPasswordForm($token);
 		}catch (InvalidParamException $ex){
 			throw new BadRequestHttpException($ex->getMessage());
 		}
+
 		if ($model->load(Yii::$app->getRequest()
 		                          ->post()) && $model->validate() && $model->resetPassword()){
 			Yii::$app->getSession()->setFlash('success', 'New password was saved.');
 
-			return $this->goHome();
+			return $this->redirect(['site/login']);
 		}
 
 		return $this->render('reset-password', [
 			'model' => $model,
 		]);
-	}
-
-	public function actionValidate(){
-		$model = new SignupForm();
-		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-			Yii::$app->response->format = Response::FORMAT_JSON;
-
-			return ActiveForm::validate($model);
-		}
-
-		return [];
 	}
 }
