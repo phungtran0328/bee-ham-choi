@@ -42,41 +42,55 @@ class ChangePassForm extends Model{
 	}
 
 	/**
-	 * Validates the password.
-	 * This method serves as the inline validation for password.
+	 * @param $attribute
+	 * @param $params
+	 * @param $validator
 	 */
-	public function validatePassword(){
-		/** @var \app\models\User $user */
-		$user = Yii::$app->user->identity;
-		if (!$user || !$user->validatePassword($this->old_password)){
-			$this->addError('old_password', 'Incorrect old password.');
+	public function validatePassword($attribute, $params, $validator){
+		if (!$this->validatePwd($this->$attribute)){
+			$this->addError($attribute, 'Incorrect old password.');
 		}
 	}
 
-	public function validateNewPassword(){
-		/** @var \app\models\User $user */
-		$user = Yii::$app->user->identity;
-		if (!$user || $user->validatePassword($this->new_password)){
+	/**
+	 * @param $attribute
+	 * @param $params
+	 * @param $validator
+	 */
+	public function validateNewPassword($attribute, $params, $validator){
+		if ($this->validatePwd($this->$attribute)){
 			$this->addError('new_password', 'New password matches the current password !');
 		}
 	}
 
 
 	/**
-	 * @return bool
+	 * @return \app\models\User|null
 	 * @throws \yii\base\Exception
 	 */
 	public function change(){
-		if ($this->validate()){
-			/** @var \app\models\User $user */
-			$user = Yii::$app->user->identity;
-			$user->setPassword($this->new_password);
-			$user->generateAuthKey();
-			if ($user->save()){
-				return TRUE;
-			}
+		if (!$this->validate()){
+			return NULL;
 		}
 
-		return FALSE;
+		/** @var \app\models\User $user */
+		$user = Yii::$app->user->identity;
+		$user->setPassword($this->new_password);
+		$user->generateAuthKey();
+		if ($user->save()){
+			return $user;
+		}
+
+		return NULL;
+	}
+
+	/**
+	 * @param $pwd
+	 *
+	 * @return bool|void
+	 */
+	public function validatePwd($pwd){
+		return Yii::$app->security->validatePassword($pwd,
+			Yii::$app->user->identity->password_hash);
 	}
 }

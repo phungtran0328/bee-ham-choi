@@ -19,8 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
 	        <?php $form = ActiveForm::begin([
-		        'id'                   => 'form-change',
-		        'enableAjaxValidation' => TRUE,
+		        'id'                     => 'change_password_form',
+		        'enableAjaxValidation'   => TRUE,
+		        'enableClientValidation' => TRUE,
 	        ]); ?>
 			<?= $form->field($model, 'old_password')->passwordInput() ?>
 			<?= $form->field($model, 'new_password')->passwordInput() ?>

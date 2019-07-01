@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\helper\MailHelper;
 use app\models\ChangePassForm;
 use app\models\User;
 use Yii;
@@ -45,7 +44,7 @@ class ProfileController extends Controller{
 		$model = $this->findModel($id);
 		$post  = Yii::$app->request->post();
 		if (!empty($post)){
-			if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			if (Yii::$app->request->isAjax && $model->load($post)){
 				Yii::$app->response->format = Response::FORMAT_JSON;
 
 				return ActiveForm::validate($model);
@@ -110,16 +109,14 @@ class ProfileController extends Controller{
 		$mail         = $user->identity->email;
 		$support_mail = Yii::$app->params['supportEmail'];
 		$model        = new ChangePassForm();
+		$post         = Yii::$app->request->post();
 
-		if ($model->load(Yii::$app->getRequest()->post()) && $model->change()){
-			Yii::$app->session->setFlash('success', 'Change password is success');
-			MailHelper::sendEmail('changePassword-html', $user->identity, $support_mail,
-				$mail, 'Change password for beehamchoi.com');
-
-			return $this->redirect(['profile/index']);
-		}
-
-		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+		if ($model->load($post)){
+			if (!Yii::$app->request->isAjax){
+				if ($model->change()){
+					return $this->redirect(['profile/index']);
+				}
+			}
 			Yii::$app->response->format = Response::FORMAT_JSON;
 
 			return ActiveForm::validate($model);
