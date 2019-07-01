@@ -5,6 +5,11 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Class ChangePassForm
+ *
+ * @package app\models
+ */
 class ChangePassForm extends Model{
 
 	public $old_password;

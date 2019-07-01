@@ -2,11 +2,13 @@
 
 namespace app\controllers;
 
+use app\helper\MailHelper;
 use app\models\ContactForm;
 use app\models\LoginForm;
 use app\models\ResetPasswordForm;
 use app\models\ResetPasswordRequest;
 use app\models\SignupForm;
+use app\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
@@ -189,7 +191,9 @@ class SiteController extends Controller{
 		}
 
 		try{
-			$model = new ResetPasswordForm($token);
+			$model        = new ResetPasswordForm($token);
+			$user         = User::findByPasswordResetToken($token);
+			$support_mail = Yii::$app->params['supportEmail'];
 		}catch (InvalidParamException $ex){
 			throw new BadRequestHttpException($ex->getMessage());
 		}
@@ -197,6 +201,8 @@ class SiteController extends Controller{
 		if ($model->load(Yii::$app->getRequest()
 		                          ->post()) && $model->validate() && $model->resetPassword()){
 			Yii::$app->getSession()->setFlash('success', 'New password was saved.');
+			MailHelper::sendEmail('changePassword-html', $user, $support_mail,
+				$user->email, 'Change password for beehamchoi.com');
 
 			return $this->redirect(['site/login']);
 		}

@@ -4,6 +4,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
 /** @var app\models\User $model */
+/* @var $this \yii\web\View */
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -26,5 +27,5 @@ use yii\helpers\Html;
 
 <?= Html::submitButton('Confirm',
 	['class' => 'btn btn-primary', 'name' => 'confirm-btn']) ?>
-<?= Html::a('Cancel', ['profile/index'], ['class' => 'btn btn-default']) ?>
-<?php ActiveForm::end(); ?>
+<?= Html::a('Cancel', ['profile/index'],
+	['class' => 'btn btn-default']) ?><?php ActiveForm::end(); ?>

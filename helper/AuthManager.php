@@ -15,8 +15,8 @@ use yii\base\Component;
 class AuthManager extends Component{
 
 	/**
-	 * @param $user
-	 * @param $permissions
+	 * @param $user_id
+	 * @param $role
 	 * @param array $params
 	 *
 	 * @return bool

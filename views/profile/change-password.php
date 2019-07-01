@@ -4,6 +4,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
 /** @var app\models\ChangePassForm $model */
+/* @var $this \yii\web\View */
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile'), 'url' => ['profile/index']];
 $this->title                   = Yii::t('app', 'Change Password');
@@ -20,7 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	        <?php $form = ActiveForm::begin([
 		        'id'                   => 'form-change',
 		        'enableAjaxValidation' => TRUE,
-		        'validationUrl'        => ['profile/validate'],
 	        ]); ?>
 			<?= $form->field($model, 'old_password')->passwordInput() ?>
 			<?= $form->field($model, 'new_password')->passwordInput() ?>

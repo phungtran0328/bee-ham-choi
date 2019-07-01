@@ -5,13 +5,15 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var app\models\User $model */
+/* @var $this \yii\web\View */
 
 ?>
 
 <?php $form = ActiveForm::begin([
-	'id'          => 'user_form',
-	'layout'      => 'horizontal',
-	'fieldConfig' => [
+	'id'                   => 'user_form',
+	'layout'               => 'horizontal',
+	'enableAjaxValidation' => TRUE,
+	'fieldConfig'          => [
 		'horizontalCssClasses' => [
 			'label'   => 'col-sm-4',
 			'offset'  => 'col-sm-offset-4',

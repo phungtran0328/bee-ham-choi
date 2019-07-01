@@ -7,7 +7,6 @@ use app\models\ChangePassForm;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
-use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -46,6 +45,11 @@ class ProfileController extends Controller{
 		$model = $this->findModel($id);
 		$post  = Yii::$app->request->post();
 		if (!empty($post)){
+			if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+				Yii::$app->response->format = Response::FORMAT_JSON;
+
+				return ActiveForm::validate($model);
+			}
 			Yii::$app->session['update'] = $post;
 
 			return $this->redirect(['profile/confirm']);
@@ -66,24 +70,30 @@ class ProfileController extends Controller{
 		if (!in_array($url[0], ['profile/index', 'profile/confirm'])){
 			Yii::$app->session->remove('update');
 
-			return $this->redirect(Url::home());
+			return $this->goHome();
 		}
+
 		if (empty(Yii::$app->session['update'])){
-			return $this->redirect(Url::home());
+			return $this->goHome();
 		}
-		$model = User::findByUsername(Yii::$app->user->identity->username);
-		$pass  = Yii::$app->request->post('User')['password'];
-		if (!empty($pass)){
-			if ($model->validatePassword($pass)){
-				if ($model->load(Yii::$app->session['update']) && $model->save()){
-					Yii::$app->session->remove('update');
-					Yii::$app->session->setFlash('success', 'Profile successfully updated.');
 
-					return $this->redirect(['profile/index']);
-				}
+		$model    = User::findByUsername(Yii::$app->user->identity->username);
+		$password = Yii::$app->request->post('User')['password'];
+
+		if (!empty($password) && $model->validatePassword($password)){
+			if ($model->load(Yii::$app->session['update']) && $model->save()){
+				Yii::$app->session->remove('update');
+				Yii::$app->session->setFlash('success', 'Profile successfully updated.');
+
+				return $this->redirect(['profile/index']);
 			}
+			if ($errors = $model->errors){
+				foreach ($errors as $error){
+					Yii::$app->session->setFlash('error', $error);
+				}
 
-			Yii::$app->session->setFlash('error', 'Password is incorrect');
+				return $this->redirect(['profile/index']);
+			}
 		}
 
 		return $this->render('confirm', [
@@ -96,16 +106,23 @@ class ProfileController extends Controller{
 	 * @throws \yii\base\Exception
 	 */
 	public function actionChangePassword(){
-		$user  = Yii::$app->user;
-		$mail  = $user->identity->email;
-		$model = new ChangePassForm();
+		$user         = Yii::$app->user;
+		$mail         = $user->identity->email;
+		$support_mail = Yii::$app->params['supportEmail'];
+		$model        = new ChangePassForm();
+
 		if ($model->load(Yii::$app->getRequest()->post()) && $model->change()){
 			Yii::$app->session->setFlash('success', 'Change password is success');
-			$send_mail = new MailHelper();
-			$send_mail->sendMail('changePassword-html', $user->identity,
+			MailHelper::sendEmail('changePassword-html', $user->identity, $support_mail,
 				$mail, 'Change password for beehamchoi.com');
 
 			return $this->redirect(['profile/index']);
+		}
+
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return ActiveForm::validate($model);
 		}
 
 		return $this->render('change-password', [
@@ -125,16 +142,5 @@ class ProfileController extends Controller{
 		}
 
 		throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-	}
-
-	public function actionValidate(){
-		$model = new ChangePassForm();
-		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-			Yii::$app->response->format = Response::FORMAT_JSON;
-
-			return ActiveForm::validate($model);
-		}
-
-		return [];
 	}
 }

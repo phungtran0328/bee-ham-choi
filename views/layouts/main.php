@@ -56,6 +56,8 @@ AppAsset::register($this);
 		                       'encode'          => FALSE,
 		                       'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
 		                       'items'           => [
+			                       ['label' => 'Bills',
+			                        'url'   => Url::toRoute(['bill/index']),],
 			                       ['label'  => 'Contact',
 			                        'url'    => Url::toRoute(['contact-management/index']),
 			                        'encode' => FALSE],
@@ -66,8 +68,15 @@ AppAsset::register($this);
 	}
 	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
 	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
-	if (Yii::$app->user->can('admin')){
-		$item['bill'] = ['label' => 'Bills', 'url' => ['/bill/index']];
+	if (!Yii::$app->user->isGuest){
+		$item['feature'] = ['label'           => 'Feature',
+		                    'encode'          => TRUE,
+		                    'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
+		                    'items'           => [
+			                    ['label'  => 'Orders',
+			                     'url'    => Url::toRoute(['bill/index']),
+			                     'encode' => FALSE],
+		                    ]];
 	}
 	$item['islogin'] = ['label' => 'Login', 'url' => ['/site/login']];
 	if (!Yii::$app->user->isGuest){
