@@ -4,7 +4,7 @@ return [
 	'class'               => 'yii\db\Connection',
 	'dsn'                 => 'mysql:host=localhost;dbname=beebasic',
 	'username'            => 'root',
-	'password'            => '',
+	'password'            => 'Trunganh@1236',
 	'charset'             => 'utf8',
 	'tablePrefix'         => 'beebs_',
 
