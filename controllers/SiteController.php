@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helper\MailHelper;
+use app\models\Confession;
 use app\models\ContactForm;
 use app\models\LoginForm;
 use app\models\ResetPasswordForm;
@@ -66,7 +67,12 @@ class SiteController extends Controller{
 	 */
 	public function actionIndex(){
 
-		return $this->render('index');
+		$cfs = Confession::find()->orderBy(['created_at' => SORT_DESC])
+		                 ->limit(6)
+		                 ->offset(0)
+		                 ->all();
+
+		return $this->render('index', ['cfs' => $cfs]);
 	}
 
 	/**
