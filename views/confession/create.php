@@ -1,16 +1,14 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Confession */
 
-$this->title                   = Yii::t('app', 'Bee ham chơi Confession');
+$this->title                   = Yii::t('app', 'Bee ham chơi');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="confession-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Confession</h1>
 
 	<?= $this->render('_form', [
 		'model' => $model,

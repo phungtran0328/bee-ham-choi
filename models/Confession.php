@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use himiklab\yii2\recaptcha\ReCaptchaValidator2;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -14,6 +15,8 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at
  */
 class Confession extends \yii\db\ActiveRecord{
+
+	public $verify_code;
 
 	/**
 	 * {@inheritdoc}
@@ -39,6 +42,8 @@ class Confession extends \yii\db\ActiveRecord{
 			[['content'], 'required'],
 			[['created_at', 'updated_at'], 'integer'],
 			[['content'], 'string', 'max' => 10000],
+			['verify_code', ReCaptchaValidator2::class,
+				'uncheckedMessage' => 'Please confirm that you are not a bot.'],
 		];
 	}
 
@@ -47,10 +52,11 @@ class Confession extends \yii\db\ActiveRecord{
 	 */
 	public function attributeLabels(){
 		return [
-			'id'         => Yii::t('app', 'ID'),
-			'content'    => Yii::t('app', 'Content'),
-			'created_at' => Yii::t('app', 'Created At'),
-			'updated_at' => Yii::t('app', 'Updated At'),
+			'id'          => Yii::t('app', 'ID'),
+			'content'     => Yii::t('app', 'Content'),
+			'created_at'  => Yii::t('app', 'Created At'),
+			'updated_at'  => Yii::t('app', 'Updated At'),
+			'verify_code' => Yii::t('app', 'Verification'),
 		];
 	}
 }
