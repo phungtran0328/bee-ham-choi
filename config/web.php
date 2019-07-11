@@ -76,6 +76,11 @@ $config = [
 	],
 	'params'     => $params,
 	'name'       => 'Bee ham chơi',
+	'modules'    => [
+		'api' => [
+			'class' => 'app\modules\api\Api',
+		],
+	],
 ];
 
 if (YII_ENV_DEV){

@@ -8,7 +8,6 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
-use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -31,7 +30,7 @@ class ConfessionController extends Controller{
 				'class' => AccessControl::class,
 				'rules' => [
 					[
-						'actions' => ['create', 'list'],
+						'actions' => ['create'],
 						'allow'   => TRUE,
 						'roles'   => ['?'],
 					],
@@ -141,26 +140,5 @@ class ConfessionController extends Controller{
 		}
 
 		throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-	}
-
-	/**
-	 * @return string
-	 * @throws \yii\web\HttpException
-	 */
-	public function actionList(){
-		if (!Yii::$app->request->isAjax){
-			throw new HttpException(404, 'Page not found.');
-		}
-		$page   = Yii::$app->request->post('page');
-		$limit  = Yii::$app->request->post('limit');
-		$offset = $limit * ($page - 1);
-		$query  = Confession::find()
-		                    ->orderBy(['created_at' => SORT_DESC])
-		                    ->limit($limit)
-		                    ->offset($offset)
-		                    ->all();
-		$html   = $this->renderAjax('_index', ['query' => $query,]);
-
-		return $html;
 	}
 }
