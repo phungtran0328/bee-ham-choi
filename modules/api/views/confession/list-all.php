@@ -20,16 +20,3 @@ foreach ($query as $key => $cf): ?>
         </div>
     </div>
 <?php endforeach; ?>
-<?php
-if ($current_page > 1 && $total > 1){
-	echo Html::a('Prev', ['confession/list', 'page' => ($current_page - 1)]) . ' ';
-}
-for ($i = 1; $i <= $total; $i ++){
-	echo Html::a($i, ['confession/list', 'page' => $i],
-			['class' => ($current_page == $i) ? 'text-warning bg-primary' : '',]) . ' ';
-}
-if ($current_page < $total && $total > 1){
-	echo Html::a('Next', ['confession/list', 'page' => ($current_page + 1)]);
-}
-echo Html::a('All', ['confession/list', 'page' => 'all'], ['class' => 'ml-5']);
-?>

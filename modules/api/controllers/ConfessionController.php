@@ -61,7 +61,13 @@ class ConfessionController extends Controller{
 	 */
 	public function actionList(){
 
-		$page   = Yii::$app->request->get('page') ?? 1;
+		$page = Yii::$app->request->get('page') ?? 1;
+
+		if ($page == 'all'){
+			return $this->render('list-all',
+				['query' => Confession::find()->orderBy(['created_at' => SORT_DESC])->all(),]);
+		}
+
 		$limit  = 4;
 		$offset = $limit * ($page - 1);
 		$query  = Confession::find()
