@@ -55,4 +55,25 @@ class ConfessionController extends Controller{
 		return ['code'    => 200,
 		        'content' => $html,];
 	}
+
+	/**
+	 * @return string
+	 */
+	public function actionList(){
+
+		$page   = Yii::$app->request->get('page') ?? 1;
+		$limit  = 4;
+		$offset = $limit * ($page - 1);
+		$query  = Confession::find()
+		                    ->orderBy(['created_at' => SORT_DESC])
+		                    ->limit($limit)
+		                    ->offset($offset);
+
+		$total_page = ceil(($query->count()) / $limit);
+
+		return $this->render('list', [
+			'query'        => $query->all(),
+			'total'        => $total_page,
+			'current_page' => $page]);
+	}
 }

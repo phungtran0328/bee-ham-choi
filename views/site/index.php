@@ -31,7 +31,7 @@ $this->title = Yii::$app->name;
 			<?php endforeach; ?>
         </div>
     </div>
-    <button id="more-btn" class="btn btn-primary">xem thêm</button>
+    <button id="more-btn" class="btn btn-primary mb-5">xem thêm</button>
 <?php
 $url = Url::toRoute(['api/confession/index']);
 $js  = <<<JS
