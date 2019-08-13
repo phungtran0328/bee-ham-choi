@@ -13,6 +13,7 @@ return [
 		'Noo'       => 'Noo',
 		'Roy'       => 'Roy',
 		'Zoe'       => 'Zoe',
-		'Kevin'     => 'Kevin'
+		'Kevin'     => 'Kevin',
+		'Daisy'     => 'Daisy'
 	]
 ];
