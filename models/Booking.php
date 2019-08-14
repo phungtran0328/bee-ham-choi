@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use himiklab\yii2\recaptcha\ReCaptchaValidator2;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -45,15 +44,11 @@ class Booking extends \yii\db\ActiveRecord{
 	public function rules(){
 		return [
 			[['bill_id', 'user_name', 'food_name',], 'required'],
-			[['user_name'], 'in', 'range' =>
-				                      ['Alvin', 'Andy', 'Argus', 'Aura', 'Christina',
-					                      'Corner', 'Kendy', 'Nancy', 'Noo', 'Roy', 'Zoe', 'Kevin', 'Daisy']],
 			[['bill_id', 'created_at', 'updated_at'], 'integer'],
 			[['user_name'], 'string', 'max' => 50],
 			[['food_name'], 'string', 'max' => 50],
 			[['remark'], 'string', 'max' => 100],
 			[['bill_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Bill::class, 'targetAttribute' => ['bill_id' => 'id']],
-			['verify_code', ReCaptchaValidator2::class, 'uncheckedMessage' => 'Please confirm that you are not a bot.']
 		];
 	}
 
