@@ -1,5 +1,6 @@
 <?php
 
+use himiklab\yii2\recaptcha\ReCaptcha2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
@@ -25,6 +26,13 @@ use yii\helpers\Html;
 		<?= $form->field($model, 'food_name')->textInput(['maxlength' => TRUE]) ?>
 
 		<?= $form->field($model, 'remark')->textarea(['maxlength' => TRUE]) ?>
+
+	    <?php
+	    if ($model->isNewRecord){
+		    echo $form->field($model, 'verify_code', ['enableAjaxValidation' => FALSE,])
+		              ->widget(ReCaptcha2::class);
+	    }
+	    ?>
 
         <div class="form-group">
 			<?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
