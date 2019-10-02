@@ -68,6 +68,8 @@ AppAsset::register($this);
 	}
 	$item['about']   = ['label' => 'About', 'url' => ['/site/about']];
 	$item['contact'] = ['label' => 'Contact', 'url' => ['/site/contact']];
+	$item['member']  = ['label' => 'Member', 'url' => ['/member/index']];
+
 	if (!Yii::$app->user->isGuest){
 		$item['feature'] = ['label'           => 'Feature',
 		                    'encode'          => TRUE,
