@@ -38,7 +38,7 @@ class Order extends \yii\db\ActiveRecord{
 			[['name'], 'string', 'max' => 50],
 			[['token'], 'string', 'max' => 255],
 			[['token'], 'unique'],
-			[['store_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Store::className(), 'targetAttribute' => ['store_id' => 'id']],
+			[['store_id'], 'exist', 'skipOnError' => TRUE, 'targetClass' => Store::class, 'targetAttribute' => ['store_id' => 'id']],
 		];
 	}
 
@@ -63,6 +63,6 @@ class Order extends \yii\db\ActiveRecord{
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getStore(){
-		return $this->hasOne(Store::className(), ['id' => 'store_id']);
+		return $this->hasOne(Store::class, ['id' => 'store_id']);
 	}
 }

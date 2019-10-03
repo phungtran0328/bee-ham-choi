@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\Member;
 use Yii;
-use yii\base\Security;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -63,11 +62,7 @@ class MemberController extends Controller{
 	 * @throws \yii\base\Exception
 	 */
 	public function actionCreate(){
-		$security = new Security();
-		$key      = $security->generateRandomString();
-		$pattern  = '/([A-Z, a-z,0-9]){10,10}/';
-		preg_match($pattern, $key, $matches);
-		$model = new Member(['token' => $matches[0]]);
+		$model = new Member();
 		if ($model->load(Yii::$app->request->post()) && $model->save()){
 			return $this->redirect(['view', 'id' => $model->id]);
 		}
