@@ -23,6 +23,10 @@ use yii\behaviors\TimestampBehavior;
  */
 class Member extends \yii\db\ActiveRecord{
 
+	const GENDER_MALE = '0';
+
+	const GENDER_FEMALE = '1';
+
 	public function behaviors(){
 		return [
 			TimestampBehavior::class,
@@ -46,6 +50,13 @@ class Member extends \yii\db\ActiveRecord{
 			[['gender', 'birthday', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'integer'],
 			[['name', 'token'], 'string', 'max' => 255],
 			[['description'], 'string', 'max' => 2000],
+		];
+	}
+
+	public static function gender(){
+		return [
+			self::GENDER_FEMALE => Yii::t('app', 'Female'),
+			self::GENDER_MALE   => Yii::t('app', 'Male')
 		];
 	}
 
