@@ -134,13 +134,10 @@ class BookingController extends Controller{
 	}
 
 	/**
-	 * Finds the Booking model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param $id
 	 *
-	 * @param integer $id
-	 *
-	 * @return Booking the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
+	 * @return \app\models\Booking|null
+	 * @throws \yii\web\NotFoundHttpException
 	 */
 	protected function findModel($id){
 		if (($model = Booking::findOne($id)) !== NULL){

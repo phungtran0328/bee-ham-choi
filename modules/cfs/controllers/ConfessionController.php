@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\api\controllers;
+namespace app\modules\cfs\controllers;
 
 use app\models\Confession;
 use Yii;
@@ -12,7 +12,7 @@ use yii\web\Response;
 /**
  * Class ConfessionController
  *
- * @package app\modules\api\controllers
+ * @package app\modules\cfs\controllers
  */
 class ConfessionController extends Controller{
 
@@ -33,7 +33,7 @@ class ConfessionController extends Controller{
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 * @throws \yii\web\HttpException
 	 */
 	public function actionIndex(){

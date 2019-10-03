@@ -66,7 +66,6 @@ class SiteController extends Controller{
 	 * @return string
 	 */
 	public function actionIndex(){
-
 		$cfs = Confession::find()->orderBy(['created_at' => SORT_DESC])
 		                 ->limit(6)
 		                 ->offset(0)
@@ -128,7 +127,7 @@ class SiteController extends Controller{
 	}
 
 	/**
-	 * @return string|\yii\web\Response
+	 * @return array|string|\yii\web\Response
 	 * @throws \yii\base\Exception
 	 */
 	public function actionSignup(){
@@ -157,7 +156,6 @@ class SiteController extends Controller{
 
 	/**
 	 * @return string|\yii\web\Response
-	 * @throws \yii\base\Exception
 	 */
 	public function actionResetPasswordRequest(){
 		if (!Yii::$app->user->isGuest){

@@ -1,8 +1,12 @@
 <?php
 
-/* @var $query \app\models\Confession[]|array|\yii\db\ActiveRecord[] */
+/* @var $query \app\models\Confession[] */
 
 /* @var $this \yii\web\View */
+
+/* @var $total float */
+
+/* @var $current_page array|int|mixed */
 
 use yii\helpers\Html;
 
