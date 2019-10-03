@@ -32,15 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		'attributes' => [
 			'id',
 			'name',
-			'gender',
+			[
+				'label' => 'Gender',
+				'value' => function ($model){
+					if ($model->gender == \app\models\Member::GENDER_FEMALE){
+						return 'Female';
+					}
+
+					return 'Male';
+				}
+			],
 			'birthday',
 			'description',
 			'status',
-			'token',
-			'created_by',
-			'created_at',
-			'updated_by',
-			'updated_at',
 		],
 	]) ?>
 

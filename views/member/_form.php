@@ -1,11 +1,14 @@
 <?php
 
+use app\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Member */
 /* @var $form yii\widgets\ActiveForm */
+AppAsset::register($this);
+
 ?>
 
 <div class="member-form">
@@ -14,7 +17,9 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'name')->textInput(['maxlength' => TRUE]) ?>
 
-	<?= $form->field($model, 'gender')->textInput() ?>
+	<?= $form->field($model, 'gender')
+	         ->dropDownList($model::gender(), ['prompt' => 'Select Gender']); ?>
+
 
 	<?= $form->field($model, 'birthday')->textInput() ?>
 
