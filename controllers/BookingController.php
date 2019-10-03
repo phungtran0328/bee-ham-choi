@@ -95,7 +95,7 @@ class BookingController extends Controller{
 				'bill'  => $bill
 			]);
 		}
-		throw new NotFoundHttpException('Đã chốt deal rồi nha bạn hiền.');
+		throw new NotFoundHttpException('Đã chốt deal rồi nha bạn hiền!');
 	}
 
 	/**
