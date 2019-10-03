@@ -59,12 +59,10 @@ class ConfessionController extends Controller{
 	}
 
 	/**
-	 * Displays a single Confession model.
+	 * @param $id
 	 *
-	 * @param integer $id
-	 *
-	 * @return mixed
-	 * @throws NotFoundHttpException if the model cannot be found
+	 * @return string
+	 * @throws \yii\web\NotFoundHttpException
 	 */
 	public function actionView($id){
 		return $this->render('view', [
@@ -73,10 +71,7 @@ class ConfessionController extends Controller{
 	}
 
 	/**
-	 * Creates a new Confession model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 *
-	 * @return mixed
+	 * @return string|\yii\web\Response
 	 */
 	public function actionCreate(){
 		$model = new Confession();
@@ -91,13 +86,10 @@ class ConfessionController extends Controller{
 	}
 
 	/**
-	 * Updates an existing Confession model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param $id
 	 *
-	 * @param integer $id
-	 *
-	 * @return mixed
-	 * @throws NotFoundHttpException if the model cannot be found
+	 * @return string|\yii\web\Response
+	 * @throws \yii\web\NotFoundHttpException
 	 */
 	public function actionUpdate($id){
 		$model = $this->findModel($id);
@@ -126,13 +118,10 @@ class ConfessionController extends Controller{
 	}
 
 	/**
-	 * Finds the Confession model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 * @param $id
 	 *
-	 * @param integer $id
-	 *
-	 * @return Confession the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
+	 * @return \app\models\Confession|null
+	 * @throws \yii\web\NotFoundHttpException
 	 */
 	protected function findModel($id){
 		if (($model = Confession::findOne($id)) !== NULL){

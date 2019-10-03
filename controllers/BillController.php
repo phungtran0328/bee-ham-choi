@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Bill;
+use Status;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -160,7 +161,7 @@ class BillController extends Controller{
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 * @throws \yii\web\HttpException
 	 */
 	public function actionFinished(){
@@ -171,7 +172,7 @@ class BillController extends Controller{
 
 			return [
 				'$model'  => $model,
-				'success' => 200,
+				'success' => Status::RESPONSE_SUCCESS,
 			];
 		}
 		throw new HttpException('404', 'Page not found.');

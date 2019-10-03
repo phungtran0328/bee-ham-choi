@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\api;
+namespace app\modules\cfs;
 
 /**
  * api module definition class
  */
-class Api extends \yii\base\Module{
+class Cfs extends \yii\base\Module{
 
-	public $controllerNamespace = 'app\modules\api\controllers';
+	public $controllerNamespace = 'app\modules\cfs\controllers';
 
 	/**
 	 * {@inheritdoc}

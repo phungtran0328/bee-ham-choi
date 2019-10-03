@@ -33,7 +33,7 @@ $this->title = Yii::$app->name;
     </div>
     <button id="more-btn" class="btn btn-primary mb-5">xem thêm</button>
 <?php
-$url = Url::toRoute(['api/confession/index']);
+$url = Url::toRoute(['cfs/confession/index']);
 $js  = <<<JS
 var page = 1;
 $("#more-btn").click(function(e) {
@@ -49,7 +49,7 @@ $("#more-btn").click(function(e) {
       }).done(function(data) {
           $('#danhsach').append(data.content);
       }).fail(function(data) {
-          alert('Lỗi');
+          alert('Error');
       })
 });
 JS;

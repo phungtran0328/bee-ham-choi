@@ -77,8 +77,8 @@ $config = [
 	'params'     => $params,
 	'name'       => 'Bee ham chơi',
 	'modules'    => [
-		'api' => [
-			'class' => 'app\modules\api\Api',
+		'cfs' => [
+			'class' => 'app\modules\cfs\Cfs',
 		],
 	],
 ];
