@@ -2,9 +2,9 @@
 
 return [
 	'class'               => 'yii\db\Connection',
-	'dsn'                 => 'mysql:host=localhost;dbname=beebasic',
+	'dsn'                 => 'mysql:host=localhost;dbname=beehamchoi',
 	'username'            => 'root',
-	'password'            => 'Trunganh@1236',
+	'password'            => '',
 	'charset'             => 'utf8',
 	'tablePrefix'         => 'beebs_',
 
